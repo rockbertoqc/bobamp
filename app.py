@@ -71,27 +71,27 @@ class BobAmp:
 
         self.listbox.config(yscrollcommand=self.scrollbar.set)
 
-        self.boton_abrir = Button(self.inferior, image=self.button_open, relief='flat', bg='#232632', activebackground='#232632', bd=0, command=self.open_directory)
+        self.boton_abrir = Button(self.inferior, highlightthickness=0, image=self.button_open, relief='flat', bg='#232632', activebackground='#232632', bd=0, command=self.open_directory)
         self.boton_abrir.pack(side=LEFT, pady=25, padx=3)
         self.boton_abrir.config(cursor='hand2')
 
-        self.boton_reproducir = Button(self.inferior, image=self.button_play, relief='flat', bg='#232632', activebackground='#232632', bd=0, command=self.play_pause)
+        self.boton_reproducir = Button(self.inferior, highlightthickness=0, image=self.button_play, relief='flat', bg='#232632', activebackground='#232632', bd=0, command=self.play_pause)
         self.boton_reproducir.pack(side=LEFT, pady=25, padx=3)
         self.boton_reproducir.config(cursor='hand2')
 
-        self.boton_atrasar = Button(self.inferior, image=self.button_rewind, relief='flat', bg='#232632', activebackground='#232632', bd=0, command=self.prev_track)
+        self.boton_atrasar = Button(self.inferior, highlightthickness=0, image=self.button_rewind, relief='flat', bg='#232632', activebackground='#232632', bd=0, command=self.prev_track)
         self.boton_atrasar.pack(side=LEFT, pady=25, padx=3)
         self.boton_atrasar.config(cursor='hand2')
 
-        self.boton_adelantar = Button(self.inferior, image=self.button_forward, relief='flat', bg='#232632', activebackground='#232632', bd=0, command=self.next_track)
+        self.boton_adelantar = Button(self.inferior, highlightthickness=0, image=self.button_forward, relief='flat', bg='#232632', activebackground='#232632', bd=0, command=self.next_track)
         self.boton_adelantar.pack(side=LEFT, pady=25, padx=3)
         self.boton_adelantar.config(cursor='hand2')
 
-        self.boton_detener = Button(self.inferior, image=self.button_stop, relief='flat', bg='#232632', activebackground='#232632', bd=0, command=self.stop)
+        self.boton_detener = Button(self.inferior, highlightthickness=0, image=self.button_stop, relief='flat', bg='#232632', activebackground='#232632', bd=0, command=self.stop)
         self.boton_detener.pack(side=LEFT, pady=25, padx=3)
         self.boton_detener.config(cursor='hand2')
 
-        self.volumen_slider = Scale(self.volumen, troughcolor='#581845', activebackground='#232632', from_=0, to=100, orient='horizontal', label='Volumen', bg='#232632', fg="#fff", bd=0, highlightbackground='#232632', font=('Verdana', 11), command=self.set_volume)
+        self.volumen_slider = Scale(self.volumen, highlightthickness=0, troughcolor='#581845', activebackground='#232632', from_=0, to=100, orient='horizontal', label='Volumen', bg='#232632', fg="#fff", bd=0, highlightbackground='#232632', font=('Verdana', 11), command=self.set_volume)
         self.volumen_slider.set(50)
         self.volumen_slider.pack(expand=True, fill=X, padx=6)
         self.volumen_slider.config(cursor='hand2')
@@ -116,6 +116,8 @@ class BobAmp:
             self.play_current_track()
 
     def play_current_track(self):
+        self.boton_reproducir.configure(image=self.button_pause)
+        self.boton_reproducir.img = self.button_pause
         pygame.mixer.music.load(self.playlist[self.current_index])
         pygame.mixer.music.play()
         self.is_paused=False
@@ -139,8 +141,8 @@ class BobAmp:
             progress_percent = (current_time / song_length) * 100
             self.barra_progreso["value"] = progress_percent
             self.update_time_labels(current_time, song_length)
-        # elif not pygame.mixer.music.get_busy() and self.playlist:
-        #    self.next_track()
+        elif not pygame.mixer.music.get_busy() and self.playlist:
+            self.next_track()
         self.root.after(1000, self.update_progress_bar)
     
     def stop(self):
